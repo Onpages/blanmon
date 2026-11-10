@@ -20,6 +20,7 @@
     </div>
     <nav class="tabs" aria-label="Разделы">
       <a href="index.html#catalog">Каталог</a>
+      <a href="index.html#tea">Чай</a>
       <a href="index.html#brands">Бренды</a>
       <a href="index.html#about">О нас</a>
       <a href="index.html#delivery">Доставка</a>
@@ -45,7 +46,7 @@
 <footer>
   <div class="shell inner">
     <div class="fmark"><span class="wordmark" style="font-size:15px">БЛАНМОН</span></div>
-    <p>Бланмон — вымышленный интернет-магазин женской косметики. Реквизит для кинопроекта: все шестнадцать марок, цены и адреса не существуют в реальной коммерческой деятельности.</p>
+    <p>Бланмон — вымышленный интернет-магазин женской косметики. Реквизит для кинопроекта: все марки каталога, чайная линейка, цены и адреса не существуют в реальной коммерческой деятельности.</p>
     <p class="cap" style="color:#8A7466;letter-spacing:.16em">Реквизит · ноябрь 2026</p>
   </div>
 </footer>
@@ -62,14 +63,14 @@
       var q = c[ids[i]]; sum += p.price * q; n += q;
       html += '<div class="cart-item" data-row="' + p.id + '">' +
         '<div class="thumb"><img src="assets/products/' + p.id + '_' + p.slug + '.jpg" alt="Очищающее молочко ' + p.brand + ' — упаковка, студийное фото" width="64" height="80"></div>' +
-        '<div class="info"><div class="name">' + p.brand + '</div>' +
-        '<div class="cap">Очищающее молочко · ' + p.vol + '</div>' +
+        '<div class="info"><div class="name">' + (p.kind === 'tea' ? p.name : p.brand) + '</div>' +
+        '<div class="cap">' + (p.kind === 'tea' ? ('Травяной чай · ' + p.compo) : ('Очищающее молочко · ' + p.vol)) + '</div>' +
         '<div class="qty"><button type="button" data-dec="' + p.id + '" aria-label="Убрать одну штуку">−</button><span>' + q + '</span><button type="button" data-inc="' + p.id + '" aria-label="Добавить одну штуку">+</button></div>' +
         '<div style="margin-top:6px">' + B.money(p.price * q) + '</div>' +
         '<button class="remove" type="button" data-del="' + p.id + '">Удалить</button></div></div>';
     }
     if (!html) {
-      box.innerHTML = '<div class="empty"><p class="lead">Корзина пуста.</p><p class="cap">Выберите молочко в каталоге</p></div>';
+      box.innerHTML = '<div class="empty"><p class="lead">Корзина пуста.</p><p class="cap">Выберите товар в каталоге</p></div>';
       wrap.classList.add('hidden');
     } else {
       box.innerHTML = html;
