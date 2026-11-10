@@ -20,6 +20,7 @@
     </div>
     <nav class="tabs" aria-label="Разделы">
       <a href="index.html#catalog">Каталог</a>
+      <a href="index.html#tea">Чай</a>
       <a href="index.html#brands">Бренды</a>
       <a href="index.html#about">О нас</a>
       <a href="index.html#delivery">Доставка</a>
@@ -34,7 +35,7 @@
 <footer>
   <div class="shell inner">
     <div class="fmark"><span class="wordmark" style="font-size:15px">БЛАНМОН</span></div>
-    <p>Бланмон — вымышленный интернет-магазин женской косметики. Реквизит для кинопроекта: все шестнадцать марок, цены и адреса не существуют в реальной коммерческой деятельности.</p>
+    <p>Бланмон — вымышленный интернет-магазин женской косметики. Реквизит для кинопроекта: все марки каталога, чайная линейка, цены и адреса не существуют в реальной коммерческой деятельности.</p>
     <p class="cap" style="color:#8A7466;letter-spacing:.16em">Реквизит · ноябрь 2026</p>
   </div>
 </footer>
@@ -44,14 +45,20 @@
 (function(){
   var B = window.BLANMON, id = new URLSearchParams(location.search).get('id');
   var p = B.byId(id) || B.PRODUCTS[0];
-  document.title = 'Очищающее молочко ' + p.brand + ' — БЛАНМОН';
+  var isTea = p.kind === 'tea';
+  var label = isTea ? ('Травяной чай ' + p.name + ' — БЛАНМОН') : ('Очищающее молочко ' + p.brand + ' — БЛАНМОН');
+  var alt = isTea ? ('Травяной чай ' + p.name + ' — упаковка, студийное фото') : ('Очищающее молочко ' + p.brand + ' — упаковка, студийное фото');
+  var meta1 = isTea ? 'Травяной чай · БЛАНМОН' : 'Очищающее молочко для лица';
+  var meta2 = isTea ? 'пакетики в индивидуальной упаковке' : p.vol;
+  document.title = label;
   var m = document.querySelector('meta[name=description]');
   if (m) m.setAttribute('content', p.desc);
   document.getElementById('p').innerHTML =
-    '<div class="photo"><img src="assets/products/' + p.id + '_' + p.slug + '.jpg" alt="Очищающее молочко ' + p.brand + ' — упаковка, студийное фото" width="928" height="1152"></div>' +
-    '<h1>' + p.brand + '</h1>' +
-    '<div class="meta"><span class="cap">Очищающее молочко для лица</span><span class="cap">' + p.vol + '</span></div>' +
+    '<div class="photo"><img src="assets/products/' + p.file + '" alt="' + alt + '" width="928" height="1152"></div>' +
+    '<h1>' + (isTea ? p.name : p.brand) + '</h1>' +
+    '<div class="meta"><span class="cap">' + meta1 + '</span><span class="cap">' + meta2 + '</span></div>' +
     '<p class="lead">' + p.desc + '</p>' +
+    (isTea ? '<p class="cap" style="margin:10px 0 0">Состав: ' + p.compo + '</p>' : '') +
     '<div class="price-lg">' + B.money(p.price) + '</div>' +
     '<div class="actions">' +
       '<button class="btn" type="button" data-add="' + p.id + '">В корзину</button>' +
