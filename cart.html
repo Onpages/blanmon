@@ -62,7 +62,7 @@
       var p = B.byId(ids[i]); if (!p) continue;
       var q = c[ids[i]]; sum += p.price * q; n += q;
       html += '<div class="cart-item" data-row="' + p.id + '">' +
-        '<div class="thumb"><img src="assets/products/' + p.id + '_' + p.slug + '.jpg" alt="Очищающее молочко ' + p.brand + ' — упаковка, студийное фото" width="64" height="80"></div>' +
+        '<div class="thumb"><img src="assets/products/' + p.file + '" alt="' + (p.kind === 'tea' ? ('Травяной чай ' + p.name) : ('Очищающее молочко ' + p.brand)) + ' — упаковка, студийное фото" width="64" height="80"></div>' +
         '<div class="info"><div class="name">' + (p.kind === 'tea' ? p.name : p.brand) + '</div>' +
         '<div class="cap">' + (p.kind === 'tea' ? ('Травяной чай · ' + p.compo) : ('Очищающее молочко · ' + p.vol)) + '</div>' +
         '<div class="qty"><button type="button" data-dec="' + p.id + '" aria-label="Убрать одну штуку">−</button><span>' + q + '</span><button type="button" data-inc="' + p.id + '" aria-label="Добавить одну штуку">+</button></div>' +
