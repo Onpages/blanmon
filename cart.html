@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FDFBF7">
+<title>Корзина — БЛАНМОН</title>
+<meta name="description" content="Корзина вымышленного магазина Бланмон.">
+<link rel="icon" href="assets/logo.png" type="image/png">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header>
+  <div class="shell">
+    <div class="hrow">
+      <a class="brand" href="index.html" aria-label="БЛАНМОН — на главную">
+        <span class="wordmark">БЛАНМОН</span>
+      </a>
+      <a class="cart-link" href="cart.html">Корзина · <b data-cart-count>0</b></a>
+    </div>
+    <nav class="tabs" aria-label="Разделы">
+      <a href="index.html#catalog">Каталог</a>
+      <a href="index.html#brands">Бренды</a>
+      <a href="index.html#about">О нас</a>
+      <a href="index.html#delivery">Доставка</a>
+    </nav>
+  </div>
+</header>
+<main class="shell">
+
+  <section class="hero" style="padding-bottom:6px">
+    <p class="cap">Корзина</p>
+    <h1 style="font-size:clamp(32px,9vw,42px)">Ваш заказ</h1>
+    <div class="rule"></div>
+  </section>
+  <div id="cart"></div>
+  <div id="checkout" class="hidden">
+    <div class="total" id="total"></div>
+    <button class="btn" type="button" id="order">Оформить заказ</button>
+    <p class="cap" style="margin-top:12px">Демонстрационный магазин · оплата не подключена</p>
+  </div>
+  <a class="back" href="index.html#catalog" style="margin-bottom:26px">Назад в каталог</a>
+
+</main>
+<footer>
+  <div class="shell inner">
+    <div class="fmark"><span class="wordmark" style="font-size:15px">БЛАНМОН</span></div>
+    <p>Бланмон — вымышленный интернет-магазин женской косметики. Реквизит для кинопроекта: все шестнадцать марок, цены и адреса не существуют в реальной коммерческой деятельности.</p>
+    <p class="cap" style="color:#8A7466;letter-spacing:.16em">Реквизит · ноябрь 2026</p>
+  </div>
+</footer>
+<script src="assets/app.js"></script>
+
+<script>
+(function(){
+  var B = window.BLANMON, KEY = 'blanmon_cart_v1';
+  var box = document.getElementById('cart'), total = document.getElementById('total'), wrap = document.getElementById('checkout');
+  function render(){
+    var c = B.read(), ids = Object.keys(c), sum = 0, html = '', n = 0;
+    for (var i=0;i<ids.length;i++){
+      var p = B.byId(ids[i]); if (!p) continue;
+      var q = c[ids[i]]; sum += p.price * q; n += q;
+      html += '<div class="cart-item" data-row="' + p.id + '">' +
+        '<div class="thumb"><img src="assets/products/' + p.id + '_' + p.slug + '.jpg" alt="Очищающее молочко ' + p.brand + ' — упаковка, студийное фото" width="64" height="80"></div>' +
+        '<div class="info"><div class="name">' + p.brand + '</div>' +
+        '<div class="cap">Очищающее молочко · ' + p.vol + '</div>' +
+        '<div class="qty"><button type="button" data-dec="' + p.id + '" aria-label="Убрать одну штуку">−</button><span>' + q + '</span><button type="button" data-inc="' + p.id + '" aria-label="Добавить одну штуку">+</button></div>' +
+        '<div style="margin-top:6px">' + B.money(p.price * q) + '</div>' +
+        '<button class="remove" type="button" data-del="' + p.id + '">Удалить</button></div></div>';
+    }
+    if (!html) {
+      box.innerHTML = '<div class="empty"><p class="lead">Корзина пуста.</p><p class="cap">Выберите молочко в каталоге</p></div>';
+      wrap.classList.add('hidden');
+    } else {
+      box.innerHTML = html;
+      wrap.classList.remove('hidden');
+      total.innerHTML = '<span>Итого · ' + n + ' шт.</span><b>' + B.money(sum) + '</b>';
+    }
+    B.paintCount();
+  }
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if (t.hasAttribute('data-inc')) { var id=t.getAttribute('data-inc'); B.setQty(id, (B.read()[id]||0)+1); render(); }
+    else if (t.hasAttribute('data-dec')) { var id2=t.getAttribute('data-dec'); B.setQty(id2, (B.read()[id2]||0)-1); render(); }
+    else if (t.hasAttribute('data-del')) { var id3=t.getAttribute('data-del'); B.setQty(id3, 0); render(); }
+    else if (t.id === 'order') {
+      var c = B.read(); B.write({});
+      document.getElementById('cart').innerHTML = '<div class="notice"><p style="margin:0 0 6px"><b>Заказ оформлен.</b></p><p style="margin:0">Спасибо. Мы свяжемся с вами, чтобы подтвердить доставку.</p></div>';
+      document.getElementById('checkout').classList.add('hidden');
+      B.paintCount();
+    }
+  });
+  render();
+})();
+</script>
+
+</body>
+</html>
