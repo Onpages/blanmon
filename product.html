@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FDFBF7">
+<title>Очищающее молочко — БЛАНМОН</title>
+<meta name="description" content="Карточка товара Бланмон: очищающее молочко, состав и объём.">
+<link rel="icon" href="assets/logo.png" type="image/png">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header>
+  <div class="shell">
+    <div class="hrow">
+      <a class="brand" href="index.html" aria-label="БЛАНМОН — на главную">
+        <span class="wordmark">БЛАНМОН</span>
+      </a>
+      <a class="cart-link" href="cart.html">Корзина · <b data-cart-count>0</b></a>
+    </div>
+    <nav class="tabs" aria-label="Разделы">
+      <a href="index.html#catalog">Каталог</a>
+      <a href="index.html#brands">Бренды</a>
+      <a href="index.html#about">О нас</a>
+      <a href="index.html#delivery">Доставка</a>
+    </nav>
+  </div>
+</header>
+<main class="shell">
+
+  <div class="product" id="p"></div>
+
+</main>
+<footer>
+  <div class="shell inner">
+    <div class="fmark"><span class="wordmark" style="font-size:15px">БЛАНМОН</span></div>
+    <p>Бланмон — вымышленный интернет-магазин женской косметики. Реквизит для кинопроекта: все шестнадцать марок, цены и адреса не существуют в реальной коммерческой деятельности.</p>
+    <p class="cap" style="color:#8A7466;letter-spacing:.16em">Реквизит · ноябрь 2026</p>
+  </div>
+</footer>
+<script src="assets/app.js"></script>
+
+<script>
+(function(){
+  var B = window.BLANMON, id = new URLSearchParams(location.search).get('id');
+  var p = B.byId(id) || B.PRODUCTS[0];
+  document.title = 'Очищающее молочко ' + p.brand + ' — БЛАНМОН';
+  var m = document.querySelector('meta[name=description]');
+  if (m) m.setAttribute('content', p.desc);
+  document.getElementById('p').innerHTML =
+    '<div class="photo"><img src="assets/products/' + p.id + '_' + p.slug + '.jpg" alt="Очищающее молочко ' + p.brand + ' — упаковка, студийное фото" width="928" height="1152"></div>' +
+    '<h1>' + p.brand + '</h1>' +
+    '<div class="meta"><span class="cap">Очищающее молочко для лица</span><span class="cap">' + p.vol + '</span></div>' +
+    '<p class="lead">' + p.desc + '</p>' +
+    '<div class="price-lg">' + B.money(p.price) + '</div>' +
+    '<div class="actions">' +
+      '<button class="btn" type="button" data-add="' + p.id + '">В корзину</button>' +
+      '<a class="btn ghost" href="cart.html">Перейти в корзину</a>' +
+    '</div>' +
+    '<a class="back" href="index.html#catalog">Назад в каталог</a>';
+})();
+</script>
+
+</body>
+</html>
